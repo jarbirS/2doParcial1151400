@@ -26,7 +26,7 @@ public class Conexion <T> {
 
 	public static EntityManager getEm() {
 		if (em == null) {
-			EntityManagerFactory emf = Persistence.createEntityManagerFactory("tiendita");
+			EntityManagerFactory emf = Persistence.createEntityManagerFactory("tiendis");
 			em = emf.createEntityManager();
 		}
 		return em;
