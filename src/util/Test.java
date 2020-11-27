@@ -15,7 +15,7 @@ public class Test {
 		// TODO Auto-generated method stub
 
 		ClienteDao cdao = new ClienteDao();
-		/*Cliente c = new Cliente("1090514779", "brayanstivenp578@gmail.com", "brayan");
+		/*Cliente c = new Cliente("1090518591", "jarbir98@gmail.com", "jarbir");
 		cdao.insert(c);*/
 		TiendaDao tdao = new TiendaDao();
 		/*Tienda t = new Tienda();
@@ -44,7 +44,7 @@ public class Test {
 		c.setTiendas(tiendas);
 		cdao.update(c);*/
 		/*Tienda t = tdao.find(3);
-		t.setNombre("La cueva");
+		t.setNombre("Los recuerdos de ella");
 		tdao.update(t);*/
 		Tienda t = tdao.findByEmail("info@reparamos.co");
 		System.out.println(t.getDescripcion() + "\n "+ t.getClave() + "\n " + t.getPropietario() + "\n " + t.getEmail());

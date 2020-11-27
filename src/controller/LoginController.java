@@ -53,44 +53,34 @@ public class LoginController extends HttpServlet {
 			String email = request.getParameter("email");
 			String password = request.getParameter("pass");
 
-			System.out.println(email + " AAAAAAAAAA");
-			System.out.println(password + " AAAAAAAAA");
+			
 
 			try {
 				Tienda t = tDao.findByEmail(email);
 				if (t != null) {
-					System.out.println(t.getDescripcion() + "\n " + t.getClave() + "\n " + t.getPropietario() + "\n "
-							+ t.getEmail());
 					if (t.getClave().equals(password)) {
-						System.out.println("AAAAAAAAAAAAA");
 						request.getSession().setAttribute("tienda", t);
 						request.getRequestDispatcher("/JSP/servicios.jsp").forward(request, response);
+					} else {
+						response.sendRedirect(request.getContextPath() + "/JSP/login.jsp");
 					}
 				}
 			} catch (Exception e) {
-				response.setContentType("text/html");
-				PrintWriter pw = response.getWriter();
-				pw.println("<script type=\"text/javascript\">");
-				pw.println("alert('VERIFICA LOS DATOS');");
-				pw.println("</script>");
-				response.sendRedirect(request.getContextPath() + "/JSP/login.jsp");
-			}
-			try {
-				Cliente c = cDao.findByEmail(email);
-				if (c != null) {
-					if (c.getClave().equals(password)) {
-						request.getSession().setAttribute("exito", c);
-						request.getRequestDispatcher("/JSP/servicioscliente.jsp").forward(request, response);
+				try {
+					Cliente c = cDao.findByEmail(email);
+					if (c != null) {
+						if (c.getClave().equals(password)) {
+							request.getSession().setAttribute("cliente", c);
+							request.getRequestDispatcher("/JSP/servicioscliente.jsp").forward(request, response);
+						} else {
+							response.sendRedirect(request.getContextPath() + "/JSP/login.jsp");
+						}
 					}
+				} catch (Exception ex) {
+					response.sendRedirect(request.getContextPath() + "/JSP/login.jsp");
 				}
-			} catch (Exception e) {
-				response.setContentType("text/html");
-				PrintWriter pw = response.getWriter();
-				pw.println("<script type=\"text/javascript\">");
-				pw.println("alert('VERIFICA LOS DATOS');");
-				pw.println("</script>");
-				response.sendRedirect(request.getContextPath() + "/JSP/login.jsp");
 			}
+			
 
 			break;
 		}
