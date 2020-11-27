@@ -8,7 +8,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import dao.ServicioDao;
 import dao.TiendaDao;
+import dto.Servicio;
 import dto.Tienda;
 
 /**
@@ -71,12 +73,6 @@ public class TiendaController extends HttpServlet {
 
 			try {
 				if (tDao.findByEmail(email) != null) {
-					System.out.println("YA EXISTE");
-					PrintWriter pw = response.getWriter();
-					pw.println("<script type=\"text/javascript\">");
-					pw.println("alert('Ya existe tienda con ese email');");
-					pw.println("</script>");
-					request.getSession().setAttribute("error", "Ese email ya se encuentra registrado");
 					request.getRequestDispatcher("/ERROR/errrorInsertarTienda.jsp").forward(request, response);
 				} else {
 					tDao.insert(t);
@@ -87,6 +83,23 @@ public class TiendaController extends HttpServlet {
 				request.getRequestDispatcher("/JSP/ERROR/errrorInsertarTienda.jsp").forward(request, response);
 			}
 
+			break;
+			
+			
+		case "registrarServicio":
+			nombre = request.getParameter("nombre");
+			descripcion = request.getParameter("descripcion");
+			int tienda = Integer.parseInt(request.getParameter("idTienda"));
+			t = tDao.find(tienda);
+			System.out.println(t.getNombre() + " "+ t.getDescripcion());
+			ServicioDao sDao = new ServicioDao();
+			Servicio s = new Servicio();
+			s.setNombre(nombre);
+			s.setDescripcion(descripcion);
+			s.setTiendaBean(t);
+			sDao.insert(s);
+			request.getSession().setAttribute("tienda", t);
+			request.getRequestDispatcher("/JSP/servicios.jsp").forward(request, response);
 			break;
 		}
 	}
